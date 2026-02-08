@@ -13,6 +13,8 @@ export default function Contact() {
   })
   const [submitted, setSubmitted] = useState(false)
 
+
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -42,15 +44,37 @@ export default function Contact() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('[v0] Form submitted:', formData)
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: '', email: '', subject: '', message: '' })
-    }, 3000)
+    console.log("HANDLE SUBMIT FIRED", formData)
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) {
+        throw new Error("Failed to submit form")
+      }
+
+      console.log("[v1] Form submitted to DB:", formData)
+
+      setSubmitted(true)
+
+      setTimeout(() => {
+        setSubmitted(false)
+        setFormData({ name: "", email: "", subject: "", message: "" })
+      }, 3000)
+    } catch (error) {
+      console.error("Form submit error:", error)
+      alert("Something went wrong. Please try again.")
+    }
   }
+
 
   const contactInfo = [
     {
@@ -253,11 +277,10 @@ export default function Contact() {
                 <motion.button
                   type="submit"
                   disabled={submitted}
-                  className={`w-full py-3 px-6 font-semibold rounded-lg transition-all ${
-                    submitted
-                      ? 'bg-green-600 text-white'
-                      : 'bg-primary text-white hover:bg-primary/90'
-                  }`}
+                  className={`w-full py-3 px-6 font-semibold rounded-lg transition-all ${submitted
+                    ? 'bg-green-600 text-white'
+                    : 'bg-primary text-white hover:bg-primary/90'
+                    }`}
                   whileHover={!submitted ? { scale: 1.02 } : {}}
                   whileTap={!submitted ? { scale: 0.98 } : {}}
                 >
