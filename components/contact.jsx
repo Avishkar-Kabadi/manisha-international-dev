@@ -46,7 +46,6 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("HANDLE SUBMIT FIRED", formData)
 
     try {
       const res = await fetch("/api/contact", {
@@ -61,7 +60,6 @@ export default function Contact() {
         throw new Error("Failed to submit form")
       }
 
-      console.log("[v1] Form submitted to DB:", formData)
 
       setSubmitted(true)
 
@@ -70,7 +68,6 @@ export default function Contact() {
         setFormData({ name: "", email: "", subject: "", message: "" })
       }, 3000)
     } catch (error) {
-      console.error("Form submit error:", error)
       alert("Something went wrong. Please try again.")
     }
   }
