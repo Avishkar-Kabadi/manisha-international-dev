@@ -14,10 +14,6 @@ export const metadata: Metadata = {
     developer: 'Avishkar Kabadi',
     'build-version': '1.0.0',
   },
-  icons: {
-    icon: '/mylogo.png', // Change the path here
-    apple: '/mylogo.png',
-  },
 }
 
 export default function RootLayout({
